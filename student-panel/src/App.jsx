@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+// Base URL configuration - Change this to your backend URL
+const BASE_URL = 'http://localhost:5000/api';
+
 function App() {
   const [hallTicket, setHallTicket] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,7 +30,7 @@ function App() {
 
   const fetchProblemStatement = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/problem-statement');
+      const response = await fetch(`${BASE_URL}/problem-statement`);
       const data = await response.json();
       if (data.problemStatement) {
         setDynamicProblemStatement(data.problemStatement);
@@ -58,7 +61,7 @@ function App() {
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/public/results');
+      const response = await fetch(`${BASE_URL}/public/results`);
       const data = await response.json();
       
       if (response.ok) {
@@ -69,7 +72,7 @@ function App() {
           resultsGenerated: false
         });
         
-        const winnersResponse = await fetch('http://localhost:5000/api/public/winners');
+        const winnersResponse = await fetch(`${BASE_URL}/public/winners`);
         const winnersData = await winnersResponse.json();
         setWinners(winnersData || []);
         
@@ -88,7 +91,7 @@ function App() {
             setTeamData(updatedTeamData);
             localStorage.setItem('teamData', JSON.stringify(updatedTeamData));
           } else {
-            const evaluateResponse = await fetch(`http://localhost:5000/api/team/${teamData.leaderHallTicket}`);
+            const evaluateResponse = await fetch(`${BASE_URL}/team/${teamData.leaderHallTicket}`);
             const evaluateData = await evaluateResponse.json();
             
             if (evaluateData && evaluateData.locked) {
@@ -118,7 +121,7 @@ function App() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ hallTicket })

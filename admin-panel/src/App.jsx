@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+// Base URL configuration - Change this to your backend URL
+const BASE_URL = 'http://localhost:5000/api';
+
 function Admin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +48,7 @@ function Admin() {
 
   const fetchProblemStatement = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/problem-statement');
+      const response = await fetch(`${BASE_URL}/problem-statement`);
       const data = await response.json();
       if (data.problemStatement) {
         setProblemStatement(data.problemStatement);
@@ -58,7 +61,7 @@ function Admin() {
   const updateProblemStatement = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/problem-statement', {
+      const response = await fetch(`${BASE_URL}/problem-statement`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ problemStatement })
@@ -86,7 +89,7 @@ function Admin() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await fetch(`${BASE_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -113,7 +116,7 @@ function Admin() {
 
   const fetchTeams = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/teams');
+      const response = await fetch(`${BASE_URL}/teams`);
       const data = await response.json();
       setTeams(data);
       
@@ -148,7 +151,7 @@ function Admin() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/marks', {
+      const response = await fetch(`${BASE_URL}/marks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ teamId, marks })
@@ -187,7 +190,7 @@ function Admin() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/teams', {
+      const response = await fetch(`${BASE_URL}/teams`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(teamData)
@@ -242,7 +245,7 @@ function Admin() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/generate-results', {
+      const response = await fetch(`${BASE_URL}/generate-results`, {
         method: 'POST'
       });
       
@@ -263,7 +266,7 @@ function Admin() {
 
   const fetchResults = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/results');
+      const response = await fetch(`${BASE_URL}/results`);
       const data = await response.json();
       setResults(data);
       setShowResults(true);
@@ -275,7 +278,7 @@ function Admin() {
   const handleResetMarks = async () => {
     if (window.confirm('Are you sure you want to reset all marks? This action cannot be undone.')) {
       try {
-        const response = await fetch('http://localhost:5000/api/reset-marks', {
+        const response = await fetch(`${BASE_URL}/reset-marks`, {
           method: 'POST'
         });
         
@@ -402,13 +405,13 @@ function Admin() {
               <tbody>
                 {results.map(team => (
                   <tr key={team._id} className={team.rank <= 3 ? `rank-${team.rank}` : ''}>
-                    <td>{team.rank}</td>
-                    <td>{getMedal(team.rank)}</td>
-                    <td>{team.teamName}</td>
-                    <td>{team.leaderName}</td>
-                    <td>{team.department}</td>
-                    <td>{team.marks}/100</td>
-                  </tr>
+                     <td>{team.rank}</td>
+                     <td>{getMedal(team.rank)}</td>
+                     <td>{team.teamName}</td>
+                     <td>{team.leaderName}</td>
+                     <td>{team.department}</td>
+                     <td>{team.marks}/100</td>
+                   </tr>
                 ))}
               </tbody>
             </table>
