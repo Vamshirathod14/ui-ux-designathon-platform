@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // Base URL configuration - Change this to your backend URL
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = 'https://ui-ux-designathon-platform-backend.onrender.com/api';
 
 function Admin() {
   const [username, setUsername] = useState('');
